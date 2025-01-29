@@ -1,0 +1,20 @@
+# Enable local volume provisioner
+local_volume_provisioner_enabled: true
+local_volume_provisioner_namespace: "kube-system"
+local_volume_provisioner_storage_classes:
+  local-storage:
+    host_dir: /mnt/local-storage
+    mount_dir: /mnt/local-storage
+    volume_mode: Filesystem
+    fs_type: ext4
+
+# Enable dashboard
+dashboard_enabled: true
+dashboard_namespace: kubernetes-dashboard
+dashboard_metrics_scraper_enabled: true
+dashboard_token_authentication: true
+dashboard_skip_login: false
+dashboard_service_type: NodePort  # or ClusterIP if you plan to use kubectl port-forward
+
+# Enable metrics server
+metrics_server_enabled: true

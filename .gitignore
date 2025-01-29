@@ -1,0 +1,5 @@
+.DS_Store
+kubespray/
+.kube/
+temp_config
+inventory/

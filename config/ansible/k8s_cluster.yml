@@ -1,0 +1,19 @@
+# API Server configuration
+supplementary_addresses_in_ssl_keys:
+  - "{{ hostvars[groups['kube_control_plane'][0]]['access_ip'] }}"  # First control plane
+  - "{{ hostvars[groups['kube_control_plane'][1]]['access_ip'] }}"  # Second control plane
+  - "172.17.0.1"  # Default Docker bridge
+  - "172.18.0.1"  # Colima default bridge
+
+# Ensure API server is accessible
+kube_apiserver_bind_address: "0.0.0.0"
+kube_apiserver_advertise_address: "{{ ansible_host }}"
+
+# Load balancer configuration
+loadbalancer_apiserver_localhost: false
+loadbalancer_apiserver:
+  address: "{{ hostvars[groups['kube_control_plane'][0]]['access_ip'] }}"
+  port: 6443
+
+container_manager: containerd
+etcd_deployment_type: host
