@@ -27,6 +27,13 @@ brew install colima docker multipass
 brew install --cask visual-studio-code
 ```
 
+If there are issues with multipass which result in errors such as:
+```cannot connect to the multipass socket```
+then it may be necessary to reinstall multipass.
+
+First remove using: ```sudo sh "/Library/Application Support/com.canonical.multipass/uninstall.sh"```
+and then reinstall using ```brew install multipass```
+
  2. Clone the repository.
 ```bash
 git clone https://github.com/stevenhunter/k8s-dev.git
