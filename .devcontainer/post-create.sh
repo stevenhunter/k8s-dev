@@ -54,6 +54,10 @@ clone_kubespray() {
         rm -rf kubespray
     fi
     git clone https://github.com/kubernetes-sigs/kubespray.git
+    git config --global --add safe.directory /workspace/kubespray
+    cd kubespray
+    git checkout tags/v2.27.0
+    cd ..
     echo "✅ Cloned Kubespray repository"
 }
 
