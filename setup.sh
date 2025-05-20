@@ -7,6 +7,10 @@ get_cluster_node_names() {
     echo "$CONTROL_NODES $WORKER_NODES"
 }
 
+get_control_node_names() {
+    echo "$CONTROL_NODES"
+}
+
 get_worker_node_names() {
     echo "$WORKER_NODES"
 }
@@ -64,19 +68,33 @@ ensure_colima_running() {
 }
 
 create_vms() {
-    printf "Creating Node VMs..."
-    for node in $(get_cluster_node_names); do
+    printf "Creating Control Node VMs..."
+    for node in $(get_control_node_names); do
         if ! multipass info $node >/dev/null 2>&1; then
             multipass launch --name $node \
-                           --memory $NODE_MEMORY \
-                           --cpus $NODE_CPUS \
-                           --disk $NODE_DISK
+                           --memory $CONTROL_NODE_MEMORY \
+                           --cpus $CONTROL_NODE_CPUS \
+                           --disk $CONTROL_NODE_DISK
         else
-            printf "\r%-${COLUMNS:-$(tput cols)}s" "❌ Node VM $node already exists"
+            printf "\r%-${COLUMNS:-$(tput cols)}s" "❌ Control Node VM $node already exists"
             exit 1
         fi
     done
-    printf "\r%-${COLUMNS:-$(tput cols)}s" "✅ Node VMs are running"
+    printf "\r%-${COLUMNS:-$(tput cols)}s" "✅ Control Node VMs are running"
+
+    printf "Creating Worker Node VMs..."
+    for node in $(get_worker_node_names); do
+        if ! multipass info $node >/dev/null 2>&1; then
+            multipass launch --name $node \
+                           --memory $WORKER_NODE_MEMORY \
+                           --cpus $WORKER_NODE_CPUS \
+                           --disk $WORKER_NODE_DISK
+        else
+            printf "\r%-${COLUMNS:-$(tput cols)}s" "❌ Worker Node VM $node already exists"
+            exit 1
+        fi
+    done
+    printf "\r%-${COLUMNS:-$(tput cols)}s" "✅ Worker Node VMs are running"
 }
 
 setup_storage(){
