@@ -15,5 +15,5 @@ loadbalancer_apiserver:
   address: "{{ hostvars[groups['kube_control_plane'][0]]['access_ip'] }}"
   port: 6443
 
-container_manager: containerd
+container_manager: crio
 etcd_deployment_type: host
